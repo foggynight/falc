@@ -49,7 +49,6 @@ void print_stack(void) {
     for (size_t i = 0; i < stack_ptr; ++i)
         printf("%d ", stack[i]);
     printf(") ");
-    fflush(stdout);
 }
 
 int main(void) {
