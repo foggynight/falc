@@ -45,7 +45,9 @@ int inter_line(const char *line, size_t line_len) {
 }
 
 void print_stack(void) {
-    printf("( ");
+    putchar('(');
+    if (stack_ptr > 0)
+        putchar(' ');
     for (size_t i = 0; i < stack_ptr; ++i)
         printf("%d ", stack[i]);
     printf(") ");
