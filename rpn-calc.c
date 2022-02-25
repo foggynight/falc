@@ -11,24 +11,27 @@
 #define min(X, Y) ((X > Y) ? Y : X)
 #define max(X, Y) ((X < Y) ? Y : X)
 
-long stack[STACK_SIZE];
+double stack[STACK_SIZE];
 size_t stack_ptr = 0;
 
-void stack_push(long n) { stack[stack_ptr++] = n; }
-long stack_pop(void) { return stack[--stack_ptr]; }
+void stack_push(double n) { stack[stack_ptr++] = n; }
+double stack_pop(void) { return stack[--stack_ptr]; }
 void stack_clear(void) { stack_ptr = 0; }
 
 int inter_word(const char *line, size_t word_start, size_t word_end) {
-    static char str[21];
+    static char str[25];
     strncpy(str, line + word_start, min(word_end, 21));
-    if (isdigit(line[word_start])) {
+    if (isdigit(str[0])
+        || ((str[0] == '-' || str[0] == '+')
+            && (word_end > word_start + 1)
+            && isdigit(str[1]))) {
         char *end;
-        long n = strtol(str, &end, 10);
+        double n = strtod(str, &end);
         stack_push(n);
     }
     else if (word_start == word_end - 1) {
-        long e;
-        switch (line[word_start]) {
+        double e;
+        switch (str[0]) {
         case '+': e = stack_pop(); stack[stack_ptr-1] += e; break;
         case '-': e = stack_pop(); stack[stack_ptr-1] -= e; break;
         case '*': e = stack_pop(); stack[stack_ptr-1] *= e; break;
@@ -58,7 +61,7 @@ void print_stack(void) {
     if (stack_ptr > 0)
         putchar(' ');
     for (size_t i = 0; i < stack_ptr; ++i)
-        printf("%d ", stack[i]);
+        printf("%g ", stack[i]);
     printf(") ");
 }
 
