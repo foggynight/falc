@@ -7,6 +7,7 @@
 
 #define LINE_SIZE  (1 << 8)
 #define STACK_SIZE (1 << 8)
+#define WORD_SIZE  25
 
 #define min(X, Y) ((X > Y) ? Y : X)
 #define max(X, Y) ((X < Y) ? Y : X)
@@ -19,7 +20,7 @@ double stack_pop(void) { return stack[--stack_ptr]; }
 void stack_clear(void) { stack_ptr = 0; }
 
 int inter_word(const char *line, size_t word_start, size_t word_end) {
-    static char str[25];
+    static char str[WORD_SIZE];
     strncpy(str, line + word_start, min(word_end, 21));
     if (isdigit(str[0])
         || ((str[0] == '-' || str[0] == '+')
