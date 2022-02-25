@@ -26,6 +26,15 @@ int inter_word(const char *line, size_t word_start, size_t word_end) {
         long n = strtol(str, &end, 10);
         stack_push(n);
     }
+    else if (word_start == word_end - 1) {
+        long e;
+        switch (line[word_start]) {
+        case '+': e = stack_pop(); stack[stack_ptr-1] += e; break;
+        case '-': e = stack_pop(); stack[stack_ptr-1] -= e; break;
+        case '*': e = stack_pop(); stack[stack_ptr-1] *= e; break;
+        case '/': e = stack_pop(); stack[stack_ptr-1] /= e; break;
+        }
+    }
 }
 
 int inter_line(const char *line, size_t line_len) {
