@@ -15,8 +15,8 @@ long stack[STACK_SIZE];
 size_t stack_ptr = 0;
 
 void stack_push(long n) { stack[stack_ptr++] = n; }
-long stack_pop() { return stack[--stack_ptr]; }
-void stack_clear() { stack_ptr = 0; }
+long stack_pop(void) { return stack[--stack_ptr]; }
+void stack_clear(void) { stack_ptr = 0; }
 
 int inter_word(const char *line, size_t word_start, size_t word_end) {
     static char str[21];
