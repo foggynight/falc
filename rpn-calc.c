@@ -41,6 +41,30 @@ int inter_word(const char *line, size_t word_start, size_t word_end) {
         case '/': e = stack_pop(); stack[stack_ptr-1] /= e; break;
         }
     }
+    else {
+        if      (!strcmp(word, "sqrt"))  { stack_push(sqrt(stack_pop())); }
+        else if (!strcmp(word, "ln"))    { stack_push(log(stack_pop())); }
+        else if (!strcmp(word, "floor")) { stack_push(floor(stack_pop())); }
+        else if (!strcmp(word, "ceil"))  { stack_push(ceil(stack_pop())); }
+        else if (!strcmp(word, "round")) { stack_push(round(stack_pop())); }
+        else if (!strcmp(word, "pi"))    { stack_push(M_PI); }
+        else if (!strcmp(word, "tau"))   { stack_push(2 * M_PI); }
+        else if (!strcmp(word, "sin"))   { stack_push(sin(stack_pop())); }
+        else if (!strcmp(word, "cos"))   { stack_push(cos(stack_pop())); }
+        else if (!strcmp(word, "tan"))   { stack_push(tan(stack_pop())); }
+        else if (!strcmp(word, "pow")) {
+            double e = stack_pop();
+            stack_push(pow(stack_pop(), e));
+        }
+        else if (!strcmp(word, "root")) {
+            double e = stack_pop();
+            stack_push(pow(stack_pop(), 1.0 / e));
+        }
+        else if (!strcmp(word, "log")) {
+            double e = stack_pop();
+            stack_push(log(stack_pop()) / log(e));
+        }
+    }
 }
 
 int inter_line(const char *line, size_t line_len) {
