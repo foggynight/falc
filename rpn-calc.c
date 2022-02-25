@@ -5,23 +5,18 @@
 #include <stdlib.h>
 #include <string.h>
 
-#define LINE_SIZE  (1 << 16)
-#define STACK_SIZE (1 << 16)
-
-// misc ////////////////////////////////////////////////////////////////////////
+#define LINE_SIZE  (1 << 8)
+#define STACK_SIZE (1 << 8)
 
 #define min(X, Y) ((X > Y) ? Y : X)
 #define max(X, Y) ((X < Y) ? Y : X)
-
-// stack ///////////////////////////////////////////////////////////////////////
 
 long stack[STACK_SIZE];
 size_t stack_ptr = 0;
 
 void stack_push(long n) { stack[stack_ptr++] = n; }
 long stack_pop() { return stack[--stack_ptr]; }
-
-// interpreter /////////////////////////////////////////////////////////////////
+void stack_clear() { stack_ptr = 0; }
 
 int inter_word(const char *line, size_t word_start, size_t word_end) {
     static char str[21];
@@ -46,15 +41,13 @@ int inter_line(const char *line, size_t line_len) {
             i = word_end;
         }
     }
+    if (word_start == word_end) stack_clear();
 }
-
-// main ////////////////////////////////////////////////////////////////////////
 
 void print_stack(void) {
     printf("( ");
-    for (size_t i = 0; i < stack_ptr; ++i) {
+    for (size_t i = 0; i < stack_ptr; ++i)
         printf("%d ", stack[i]);
-    }
     printf(") ");
     fflush(stdout);
 }
