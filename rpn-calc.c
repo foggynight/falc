@@ -1,3 +1,7 @@
+// rpn-calc.c - Reverse Polish Notation calculator.
+// Copyright (C) 2022 Robert Coffey
+// Released under the GPLv3.
+
 #include <ctype.h>
 #include <math.h>
 #include <stdio.h>
