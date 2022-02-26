@@ -9,9 +9,9 @@
 #include <string.h>
 
 #define DICT_SIZE  ('z' - 'a' + 1)
+#define KEY_SIZE   1
 #define LINE_SIZE  (1 << 8)
 #define STACK_SIZE (1 << 8)
-#define KEY_SIZE   1
 #define WORD_SIZE  (1 << 9)
 
 #define ERR_UF 1 // stack underflow
