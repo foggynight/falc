@@ -120,6 +120,27 @@ int inter_word(const char *line, size_t word_start, size_t word_end) {
                 for (char c = 'a'; c <= 'z'; ++c)
                     printf("%c: %g\n", c, dict_get(c));
             }
+            else if (!strcmp(word, "nip"))
+            {
+                handle_uf(2);
+                double e = stack_pop();
+                stack[stack_ptr - 1] = e;
+            }
+            else if (!strcmp(word, "swap"))
+            {
+                handle_uf(2);
+                double e = stack_pop();
+                stack_push(stack_top());
+                stack[stack_ptr - 2] = e;
+            }
+            else if (!strcmp(word, "rot"))
+            {
+                handle_uf(3);
+                double e = stack_offset(2);
+                stack[stack_ptr - 3] = stack[stack_ptr - 2];
+                stack[stack_ptr - 2] = stack[stack_ptr - 1];
+                stack[stack_ptr - 1] = e;
+            }
             else if (!strcmp(word, "pow"))
             {
                 handle_uf(2);
