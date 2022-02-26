@@ -5,24 +5,24 @@
 #include <stdlib.h>
 #include <string.h>
 
-#define LINE_SIZE  (1 << 8)
-#define STACK_SIZE (1 << 8)
-#define WORD_SIZE  512
+#define LINE_LIM  (1 << 8)
+#define STACK_LIM (1 << 8)
+#define WORD_LIM  512
 
 #define min(X, Y) ((X > Y) ? Y : X)
 #define max(X, Y) ((X < Y) ? Y : X)
 
-double stack[STACK_SIZE];
+double stack[STACK_LIM];
 size_t stack_ptr = 0;
 
-void stack_push(double n) { stack[stack_ptr++] = n; }
-double stack_pop(void) { return stack[--stack_ptr]; }
+void stack_push(double n) { if (stack_ptr < STACK_LIM) stack[stack_ptr++] = n; }
+double stack_pop(void) { return !stack_ptr ? 0 : stack[--stack_ptr]; }
 void stack_clear(void) { stack_ptr = 0; }
 
 int inter_word(const char *line, size_t word_start, size_t word_end) {
-    static char word[WORD_SIZE];
+    static char word[WORD_LIM];
     const size_t word_len = word_end - word_start;
-    strncpy(word, line + word_start, min(word_len, WORD_SIZE-1));
+    strncpy(word, line + word_start, min(word_len, WORD_LIM-1));
     word[word_len] = '\0';
     if (isdigit(word[0])
         || ((word[0] == '-' || word[0] == '+')
@@ -93,9 +93,9 @@ void print_stack(void) {
 }
 
 int main(void) {
-    char line[LINE_SIZE];
+    char line[LINE_LIM];
     print_stack();
-    while (fgets(line, LINE_SIZE, stdin)) {
+    while (fgets(line, LINE_LIM, stdin)) {
         inter_line(line, strlen(line));
         print_stack();
     }
