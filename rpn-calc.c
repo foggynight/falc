@@ -42,7 +42,8 @@ int inter_word(const char *line, size_t word_start, size_t word_end) {
         }
     }
     else {
-        if      (!strcmp(word, "sqrt"))  { stack_push(sqrt(stack_pop())); }
+        if      (!strcmp(word, "clear")) { stack_clear(); }
+        else if (!strcmp(word, "sqrt"))  { stack_push(sqrt(stack_pop())); }
         else if (!strcmp(word, "ln"))    { stack_push(log(stack_pop())); }
         else if (!strcmp(word, "floor")) { stack_push(floor(stack_pop())); }
         else if (!strcmp(word, "ceil"))  { stack_push(ceil(stack_pop())); }
@@ -80,7 +81,6 @@ int inter_line(const char *line, size_t line_len) {
             i = word_end;
         }
     }
-    if (word_start == word_end) stack_clear();
 }
 
 void print_stack(void) {
