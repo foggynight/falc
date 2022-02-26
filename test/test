@@ -1,0 +1,5 @@
+#!/bin/sh
+
+for test in *.rpn; do
+    cat "$test" | ../rpn-calc | mimic t "$test".mim
+done
