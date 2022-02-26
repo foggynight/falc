@@ -203,9 +203,9 @@ int main(void) {
     print_stack();
     while (fgets(line, LINE_SIZE, stdin)) {
         switch (inter_line(line, strlen(line))) {
-        case 1: puts("stack underflow"); break;
-        case 2: puts("stack overflow"); break;
-        case 3: puts("invalid key"); break;
+        case ERR_UF: puts("stack underflow"); break;
+        case ERR_OF: puts("stack overflow"); break;
+        case ERR_IK: puts("invalid key"); break;
         }
         print_stack();
     }
