@@ -114,6 +114,11 @@ int inter_word(const char *line, size_t word_start, size_t word_end) {
             { handle_uf(1); stack_push(cos(stack_pop())); }
             else if (!strcmp(word, "tan"))
             { handle_uf(1); stack_push(tan(stack_pop())); }
+            else if (!strcmp(word, "dict"))
+            {
+                for (char c = 'a'; c <= 'z'; ++c)
+                    printf("%c: %g\n", c, dict_get(c));
+            }
             else if (!strcmp(word, "pow"))
             {
                 handle_uf(2);
