@@ -48,7 +48,8 @@ int inter_word(const char *line, size_t word_start, size_t word_end) {
     static char word[WORD_SIZE];
     const size_t word_len = word_end - word_start;
     const size_t word_lim = min(word_len, WORD_SIZE - 1);
-    strncpy(word, line + word_start, word_lim);
+    for (size_t i = 0; i < word_lim; ++i)
+        word[i] = tolower(*(line + word_start + i));
     word[word_lim] = '\0';
 
     switch (state) {
