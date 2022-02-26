@@ -63,6 +63,7 @@ int inter_word(const char *line, size_t word_start, size_t word_end) {
     }
     else {
         if      (!strcmp(word, "clear")) { stack_clear(); }
+        else if (!strcmp(word, "drop"))  { stack_pop(); }
         else if (!strcmp(word, "store")) { state = STORE; }
         else if (!strcmp(word, "sqrt"))  { stack_push(sqrt(stack_pop())); }
         else if (!strcmp(word, "ln"))    { stack_push(log(stack_pop())); }
