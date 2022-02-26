@@ -24,8 +24,8 @@ enum dict_state state = FETCH;
 
 double dict[DICT_SIZE];
 
-double dict_get(char key) { return dict[key % DICT_SIZE]; }
-void dict_set(char key, double n) { dict[key % DICT_SIZE] = n; }
+double dict_get(char key) { return dict[tolower(key) % DICT_SIZE]; }
+void dict_set(char key, double n) { dict[tolower(key) % DICT_SIZE] = n; }
 
 int inter_word(const char *line, size_t word_start, size_t word_end) {
     static char word[WORD_SIZE];
