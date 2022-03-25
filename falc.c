@@ -1,4 +1,4 @@
-// rpn-calc.c - Reverse Polish Notation calculator.
+// falc.c - stack-based postfix calculator
 // Copyright (C) 2022 Robert Coffey
 // Released under the GPLv3.
 
