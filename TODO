@@ -6,3 +6,4 @@ TODO organize commands in inter_word
 TODO print command on stack under/over-flow
 TODO add input history using arrow keys
 TODO update tests
+TODO add unknown command error
