@@ -9,3 +9,7 @@ debug:
 .PHONY: install
 install:
 	cp falc /usr/local/bin
+
+.PHONY: uninstall
+uninstall:
+	rm /usr/local/bin/falc
