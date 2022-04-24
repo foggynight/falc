@@ -59,8 +59,7 @@ int inter_word(const char *line, size_t word_start, size_t word_end) {
             || ((word[0] == '-' || word[0] == '+')
                 && (word_end > word_start + 1)
                 && isdigit(word[1]))) {
-            if (stack_size() >= STACK_SIZE)
-                return ERR_OF;
+            handle_of(0);
             char *end;
             double n = strtod(word, &end);
             stack_push(n);
@@ -68,13 +67,11 @@ int inter_word(const char *line, size_t word_start, size_t word_end) {
         // word contains a single character
         else if (word_start == word_end - 1) {
             if (isalpha(word[0])) {
-                if (stack_size() >= STACK_SIZE)
-                    return ERR_OF;
+                handle_of(0);
                 stack_push(dict_get(word[0]));
             }
             else {
-                if (stack_size() < 2)
-                    return ERR_UF;
+                handle_uf(2);
                 double e;
                 switch (word[0]) {
                 case '+': e = stack_pop(); stack[stack_ptr-1] += e; break;
@@ -85,76 +82,63 @@ int inter_word(const char *line, size_t word_start, size_t word_end) {
             }
         }
         else { // word contains multiple characters
-            if (!strcmp(word, "store"))
-            { handle_uf(1); state = STORE; }
-            else if (!strcmp(word, "dup"))
-            { handle_uof(1, 1); stack_push(stack_top()); }
-            else if (!strcmp(word, "over"))
-            { handle_uof(2, 1); stack_push(stack_offset(1)); }
-            else if (!strcmp(word, "drop"))
-            { handle_uf(1); stack_pop(); }
-            else if (!strcmp(word, "clear"))
-            { stack_clear(); }
-            else if (!strcmp(word, "sqrt"))
-            { handle_uf(1); stack_push(sqrt(stack_pop())); }
-            else if (!strcmp(word, "ln"))
-            { handle_uf(1); stack_push(log(stack_pop())); }
-            else if (!strcmp(word, "floor"))
-            { handle_uf(1); stack_push(floor(stack_pop())); }
-            else if (!strcmp(word, "ceil"))
-            { handle_uf(1); stack_push(ceil(stack_pop())); }
-            else if (!strcmp(word, "round"))
-            { handle_uf(1); stack_push(round(stack_pop())); }
-            else if (!strcmp(word, "pi"))
-            { handle_of(1); stack_push(M_PI); }
-            else if (!strcmp(word, "tau"))
-            { handle_of(1); stack_push(2 * M_PI); }
-            else if (!strcmp(word, "sin"))
-            { handle_uf(1); stack_push(sin(stack_pop())); }
-            else if (!strcmp(word, "cos"))
-            { handle_uf(1); stack_push(cos(stack_pop())); }
-            else if (!strcmp(word, "tan"))
-            { handle_uf(1); stack_push(tan(stack_pop())); }
-            else if (!strcmp(word, "dict"))
-            {
+            if (!strcmp(word, "store")) {
+                handle_uf(1); state = STORE;
+            } else if (!strcmp(word, "dup")) {
+                handle_uof(1, 0); stack_push(stack_top());
+            } else if (!strcmp(word, "over")) {
+                handle_uof(2, 0); stack_push(stack_offset(1));
+            } else if (!strcmp(word, "drop")) {
+                handle_uf(1); stack_pop();
+            } else if (!strcmp(word, "clear")) {
+                stack_clear();
+            } else if (!strcmp(word, "sqrt")) {
+                handle_uf(1); stack_push(sqrt(stack_pop()));
+            } else if (!strcmp(word, "ln")) {
+                handle_uf(1); stack_push(log(stack_pop()));
+            } else if (!strcmp(word, "floor")) {
+                handle_uf(1); stack_push(floor(stack_pop()));
+            } else if (!strcmp(word, "ceil")) {
+                handle_uf(1); stack_push(ceil(stack_pop()));
+            } else if (!strcmp(word, "round")) {
+                handle_uf(1); stack_push(round(stack_pop()));
+            } else if (!strcmp(word, "pi")) {
+                handle_of(0); stack_push(M_PI);
+            } else if (!strcmp(word, "tau")) {
+                handle_of(0); stack_push(2 * M_PI);
+            } else if (!strcmp(word, "sin")) {
+                handle_uf(1); stack_push(sin(stack_pop()));
+            } else if (!strcmp(word, "cos")) {
+                handle_uf(1); stack_push(cos(stack_pop()));
+            } else if (!strcmp(word, "tan")) {
+                handle_uf(1); stack_push(tan(stack_pop()));
+            } else if (!strcmp(word, "dict")) {
                 for (char c = 'a'; c <= 'z'; ++c)
                     printf("%c: %g\n", c, dict_get(c));
-            }
-            else if (!strcmp(word, "nip"))
-            {
+            } else if (!strcmp(word, "nip")) {
                 handle_uf(2);
                 double e = stack_pop();
                 stack[stack_ptr - 1] = e;
-            }
-            else if (!strcmp(word, "swap"))
-            {
+            } else if (!strcmp(word, "swap")) {
                 handle_uf(2);
                 double e = stack_pop();
                 stack_push(stack_top());
                 stack[stack_ptr - 2] = e;
-            }
-            else if (!strcmp(word, "rot"))
-            {
+            } else if (!strcmp(word, "rot")) {
                 handle_uf(3);
                 double e = stack_offset(2);
                 stack[stack_ptr - 3] = stack[stack_ptr - 2];
                 stack[stack_ptr - 2] = stack[stack_ptr - 1];
                 stack[stack_ptr - 1] = e;
-            }
-            else if (!strcmp(word, "pow"))
-            {
+            } else if (!strcmp(word, "pow")) {
                 handle_uf(2);
                 double e = stack_pop();
                 stack_push(pow(stack_pop(), e));
-            }
-            else if (!strcmp(word, "root"))
-            {
+            } else if (!strcmp(word, "root")) {
                 handle_uf(2);
                 double e = stack_pop();
                 stack_push(pow(stack_pop(), 1.0 / e));
-            }
-            else if (!strcmp(word, "log"))
-            {
+            } else if (!strcmp(word, "log")) {
                 handle_uf(2);
                 double e = stack_pop();
                 stack_push(log(stack_pop()) / log(e));
